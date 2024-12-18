@@ -21,19 +21,19 @@ public class ProjectTask
     /// <summary>
     /// Время на работу
     /// </summary>
-    public decimal? EstablishedTime { get; set; }
+    public decimal EstablishedTime { get; set; } = decimal.Zero;
     /// <summary>
     /// Затраченное время
     /// </summary>
-    public decimal? SpentTime { get; set; }
+    public decimal SpentTime { get; set; } = decimal.Zero;
     /// <summary>
     /// айди исполнителя
     /// </summary>
-    public Guid? PerformerId { get; set; }
+    public Guid PerformerId { get; set; } = default!;
     /// <summary>
     /// айди проекта
     /// </summary>
-    public Guid? ProjectId { get; set; }
+    public required Guid ProjectId { get; set; }
     /// <summary>
     /// Статус задачи
     /// </summary>
