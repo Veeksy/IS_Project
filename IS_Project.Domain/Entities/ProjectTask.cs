@@ -35,6 +35,10 @@ public class ProjectTask
     /// </summary>
     public required Guid ProjectId { get; set; }
     /// <summary>
+    /// Приоритет задачи
+    /// </summary>
+    public PriorityEnum Priority { get; set; } = PriorityEnum.Medium;
+    /// <summary>
     /// Статус задачи
     /// </summary>
     public StatusEnum TaskStatus { get; set; } = StatusEnum.InWork;
