@@ -15,5 +15,5 @@ public class Project
     /// <summary>
     /// Описание
     /// </summary>
-    public required string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 }

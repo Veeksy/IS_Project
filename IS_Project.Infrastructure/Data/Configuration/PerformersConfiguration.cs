@@ -18,8 +18,11 @@ public class PerformersConfiguration : IEntityTypeConfiguration<Performer>
             .HasMaxLength(150)
             .IsRequired();
 
-        builder.Property(x => x.PhoneNumber);
+        builder.Property(x => x.PhoneNumber)
+            .HasDefaultValue(null);
 
-        builder.Property(x => x.AboutMe).HasMaxLength(1500);
+        builder.Property(x => x.AboutMe)
+            .HasDefaultValue(null)
+            .HasMaxLength(1500);
     }
 }

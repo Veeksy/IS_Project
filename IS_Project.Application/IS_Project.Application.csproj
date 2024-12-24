@@ -19,4 +19,9 @@
     <ProjectReference Include="..\IS_Project.Domain\IS_Project.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCases\Project\Commands\Update\" />
+    <Folder Include="UseCases\Project\Queries\" />
+  </ItemGroup>
+
 </Project>

@@ -36,7 +36,6 @@ public class GetPerformerWithPaginationHandler : IRequestHandler<GetPerformerWit
                 && x.AboutMe.Contains(request.SearchAboutMe, 
                 StringComparison.InvariantCultureIgnoreCase));
 
-        return await query
-            .Distinct().PaginatedListAsync(request.PageNumber, request.PageSize);
+        return await query.Distinct().PaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }
