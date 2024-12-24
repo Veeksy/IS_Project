@@ -37,15 +37,16 @@ public class ProjectController(ISender sender) : ControllerBase
     /// <summary>
     /// Получает список проектов
     /// </summary>
+    /// <param name="setting">Параметры поиска</param>
     /// <param name="token">Токен отмены</param>
     /// <returns>список проектов</returns>
     [HttpGet]
     [Produces(typeof(PaginatedList<Project>))]
     [ProducesResponseType(typeof(PaginatedList<Project>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetList(CancellationToken token)
+    public async Task<IActionResult> GetList(GetProjectWithPagination setting, CancellationToken token)
     {
-        var projectList = await sender.Send(new GetProjectWithPagination(), token);
+        var projectList = await sender.Send(setting, token);
         return Ok(projectList);
     }
     /// <summary>
