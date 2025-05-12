@@ -2,16 +2,17 @@
 using MediatR;
 using IS_Project.Application.Common.Data;
 using Microsoft.EntityFrameworkCore;
+using IS_Project.Application.Common;
 
 namespace IS_Project.Application.UseCases.ProjectTask.Queries.GetProjectTaskWithPagination;
 
-public class GetProjectTaskWithPaginationHandler : IRequestHandler<GetProjectTaskWithoutPagination, List<Model.ProjectTask>>
+public class GetProjectTaskWithPaginationHandler : IRequestHandler<GetProjectTaskWithoutPagination, PaginatedList<Model.ProjectTask>>
 {
     private readonly IApplicationDbContext _context;
 
     public GetProjectTaskWithPaginationHandler(IApplicationDbContext context) => _context = context;
 
-    public async Task<List<Model.ProjectTask>> Handle(GetProjectTaskWithoutPagination request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<Model.ProjectTask>> Handle(GetProjectTaskWithoutPagination request, CancellationToken cancellationToken)
     {
         var query = _context.ProjectTasks.AsQueryable();
 
@@ -31,6 +32,6 @@ public class GetProjectTaskWithPaginationHandler : IRequestHandler<GetProjectTas
         if (request.Priority is not null)
             query.Where(x=>x.Priority == request.Priority);
 
-        return await query.Distinct().ToListAsync(cancellationToken);
+        return await query.Distinct().PaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }

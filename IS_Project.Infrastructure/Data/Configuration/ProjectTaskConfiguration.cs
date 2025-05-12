@@ -26,5 +26,11 @@ public class ProjectTaskConfiguration : IEntityTypeConfiguration<ProjectTask>
 
         builder.Property(x => x.Priority)
             .HasDefaultValue(PriorityEnum.Medium);
+
+        builder.HasOne<Performer>()
+            .WithMany().HasForeignKey(x => x.PerformerId);
+
+        builder.HasOne<Project>()
+            .WithMany().HasForeignKey(x=>x.ProjectId);
     }
 }
