@@ -1,4 +1,5 @@
 ﻿using IS_Project.Application.Common.Data;
+using IS_Project.Domain.AuthModels;
 using IS_Project.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -10,6 +11,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Performer> Performers { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProjectTask> ProjectTasks { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder optionsBuilder)
     {

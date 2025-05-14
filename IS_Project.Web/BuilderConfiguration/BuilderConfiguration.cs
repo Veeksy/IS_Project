@@ -1,7 +1,5 @@
 ﻿using IS_Project.Infrastructure;
 using System.Reflection;
-using FluentValidation;
-using MediatR;
 using IS_Project.Application;
 
 namespace IS_Project.Web.BuilderConfiguration
@@ -18,7 +16,7 @@ namespace IS_Project.Web.BuilderConfiguration
                 
                 string path = Uri.UnescapeDataString(uri.Path);
                 
-                c.IncludeXmlComments(Path.Combine(Path.GetDirectoryName(path),
+                c.IncludeXmlComments(Path.Combine(Path.GetDirectoryName(path) ?? string.Empty,
                     $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
             });
 

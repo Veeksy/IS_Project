@@ -36,15 +36,16 @@ public class PerformerController(ISender sender) : ControllerBase
     /// <summary>
     /// Получает список исполнителей
     /// </summary>
+    /// <param name="setting">Параметры поиска</param>
     /// <param name="token">Токен отмены</param>
     /// <returns>список исполнителей</returns>
     [HttpGet]
     [Produces(typeof(PaginatedList<Performer>))]
     [ProducesResponseType(typeof(PaginatedList<Performer>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> GetList(CancellationToken token)
+    public async Task<IActionResult> GetList(GetPerformerWithPagination setting, CancellationToken token)
     {
-        var performerList = await sender.Send(new GetPerformerWithPagination(), token);
+        var performerList = await sender.Send(setting, token);
         return Ok(performerList);
     }
     /// <summary>

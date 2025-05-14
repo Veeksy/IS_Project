@@ -22,10 +22,49 @@ namespace IS_Project.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("IS_Project.Domain.Entities.Performer", b =>
+            modelBuilder.Entity("IS_Project.Domain.AuthModels.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PerformerDataId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PerformerDataId");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("IS_Project.Domain.Entities.Performer", b =>
+                {
+                    b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
                     b.Property<string>("AboutMe")
@@ -65,7 +104,8 @@ namespace IS_Project.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
                     b.HasKey("Id");
 
@@ -79,30 +119,78 @@ namespace IS_Project.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasMaxLength(1500)
+                        .HasColumnType("character varying(1500)");
 
-                    b.Property<decimal?>("EstablishedTime")
+                    b.Property<decimal>("EstablishedTime")
                         .HasColumnType("numeric");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
 
-                    b.Property<Guid?>("PerformerId")
+                    b.Property<Guid>("PerformerId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("ProjectId")
+                    b.Property<int>("Priority")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(2);
+
+                    b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
 
-                    b.Property<decimal?>("SpentTime")
+                    b.Property<decimal>("SpentTime")
                         .HasColumnType("numeric");
 
                     b.Property<int>("TaskStatus")
-                        .HasColumnType("integer");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PerformerId");
+
+                    b.HasIndex("ProjectId");
+
                     b.ToTable("ProjectTasks");
+                });
+
+            modelBuilder.Entity("IS_Project.Domain.AuthModels.User", b =>
+                {
+                    b.HasOne("IS_Project.Domain.Entities.Performer", "PerformerData")
+                        .WithMany()
+                        .HasForeignKey("PerformerDataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PerformerData");
+                });
+
+            modelBuilder.Entity("IS_Project.Domain.Entities.Performer", b =>
+                {
+                    b.HasOne("IS_Project.Domain.AuthModels.User", null)
+                        .WithOne()
+                        .HasForeignKey("IS_Project.Domain.Entities.Performer", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IS_Project.Domain.Entities.ProjectTask", b =>
+                {
+                    b.HasOne("IS_Project.Domain.Entities.Performer", null)
+                        .WithMany()
+                        .HasForeignKey("PerformerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IS_Project.Domain.Entities.Project", null)
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
